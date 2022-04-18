@@ -1,7 +1,7 @@
 CXX = g++
 OPTIONS = -Wall
 PROGRAM = main.exe
-SRC = Card.cpp Deck.cpp Hand.cpp TigerCard.cpp
+SRC = Card.cpp Deck.cpp Hand.cpp
 HEADERS = $(patsubst %.cpp, %.h, $(SRC)) Player.h
 
 all: $(PROGRAM)
