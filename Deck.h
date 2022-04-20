@@ -14,8 +14,8 @@ class Deck{
     public:
         Deck();
 
-        void shuffle();
-        Card drawCard();
+        void shuffle(); // shuffles the deck
+        Card drawCard(); // draws card from deck
         int getDeckSize() const;
 };
   

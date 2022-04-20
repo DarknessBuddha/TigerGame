@@ -11,6 +11,7 @@ class Card{
 
         std::string printCard() const;
         
+        // getters
         int getRank() const;
         int getColor() const;
         int getValue() const;

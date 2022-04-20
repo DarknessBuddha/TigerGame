@@ -20,132 +20,157 @@ int main() {
     //    - Print results for current round.
     // 4. Print final game results.  
 
+    // initialize variables
     int totalRounds = 0;
-    
-    std::vector<int> humanScores, computerScores;
-    std::vector<int> humanWins, computerWins;
+    // vectors to keep track of scores and wins
+    vector<int> humanScores, computerScores;
+    vector<int> humanWins, computerWins;
 
+    // game loop
     while(true){
+        // initialize game
         ++totalRounds;
         humanScores.push_back(0);
         humanWins.push_back(0);
         computerScores.push_back(0);
         computerWins.push_back(0);
 
-        std::string input;
+        string input; // variable to store input buffer
+
+        // function to check if input is a number
         auto isInputANumber = [&input]()->bool{
             for(auto c: input){
                 if(!isdigit(c)){
-                std::cout << "Input a number: ";
-                return false;
+                    cout << "Input a number: ";
+                    return false;
                 }
             }
             return true;
         };
 
         int rounds = 5;
+
+        // function to check if the number of round is valid
         auto isNumberOfRoundValid = [&input, &rounds]()->bool{
-            rounds = std::stoi(input);
+            rounds = stoi(input);
             if(rounds > 10){
-                std::cout << "Input a number between 1 and 10: ";
+                cout << "Input a number between 1 and 10: ";
                 return false;
             }
             return true;
         };
 
+        // make deck and shuffle it
         Deck deckOfCards;
         deckOfCards.shuffle();
 
-        std::cout << "Welcome to TigerGame!\n";
-        std::cout << "How many rounds?\n";
+        // introduction
+        cout << "Welcome to TigerGame!\n";
+        cout << "How many rounds?\n";
 
-        std::getline(cin, input);
+        // get and validate input
+        getline(cin, input);
         while(!isInputANumber() || !isNumberOfRoundValid()){
-            std::getline(cin, input);
+            getline(cin, input);
         }
         
+        // initialize the players
         Player computer{deckOfCards, rounds};
         Player human{deckOfCards, rounds};
 
-        std::cout << "The deck was shuffled and each player has drawn " << rounds <<  " cards.\n\n";
+        cout << "The deck was shuffled and each player has drawn " << rounds <<  " cards.\n\n";
 
+        // game begins
         for(int i = 0; i < rounds; ++i){
-            Card computerCard, humanCard;
+            Card computerCard, humanCard; // variables to store cards
 
-            std::cout << "Round " << i+1 << "\n-------\n";
-            std::cout << "The computer plays: " << (computerCard = computer.hand.dealCard(0)).printCard() << "\n";
+            // computer's turn
+            cout << "Round " << i+1 << "\n-------\n";
+            cout << "The computer plays: " << (computerCard = computer.hand.dealCard(0)).printCard() << "\n";
 
-            std::cout << "Your hand: " << human.hand.printHand() << "\n";
-            std::cout << "Which card do you want to play? ";
+            // human's turn
+            cout << "Your hand: " << human.hand.printHand() << "\n";
+            cout << "Which card do you want to play? ";
 
             int position;
+            // function to check if position is valid
             auto isPositionValid = [&position, &input, &human]()->bool{
-                position = std::stoi(input)-1;
+                position = stoi(input)-1; // convert string to number
                 if(position > human.hand.getHandSize()){
-                    std::cout << "Input a number between 1 and " << human.hand.getHandSize() << ": ";
+                    cout << "Input a number between 1 and " << human.hand.getHandSize() << ": ";
                     return false;
                 }
                 return true;
             };
 
-            std::getline(cin, input);
+            // get and validate input
+            getline(cin, input);
             while(!isInputANumber() || !isPositionValid()){
-                std::getline(cin, input);
+                getline(cin, input);
             }
 
-            std::cout << "You played: " << (humanCard = human.hand.dealCard(position)).printCard() << "\n";
+            cout << "You played: " << (humanCard = human.hand.dealCard(position)).printCard() << "\n";
             
+            // check winner for the round
             if(computerCard.getValue() > humanCard.getValue()){
-                std::cout << "The computer wins this round!\n";
+                cout << "The computer wins this round!\n";
                 int score = computerCard.getValue() + humanCard.getValue();
+                // update scores and wins
                 computer.score += score;
                 *(computerScores.end()-1) += score;
                 *(computerWins.end()-1) += 1;
             }else if(humanCard.getValue() > computerCard.getValue()){
-                std::cout << "You win this round!\n";
+                cout << "You win this round!\n";
                 int score = computerCard.getValue() + humanCard.getValue();
+                // update scores and wins
                 human.score += score;
                 *(humanScores.end()-1) += score;
                 *(humanWins.end()-1) += 1;
             }else{
-                std::cout << "Tie!\n";
+                cout << "Tie!\n";
             }
 
-            std::cout << "\nCurrent scores:\n";
-            std::cout << "Human: " << human.score << "\n";
-            std::cout << "Computer: " << computer.score <<"\n\n";
+            // print results for current round
+            cout << "\nCurrent scores:\n";
+            cout << "Human: " << human.score << "\n";
+            cout << "Computer: " << computer.score <<"\n\n";
         }
 
-        std::cout << "FINAL SCORE:\n";
-        std::cout << "Human: " << human.score << "\n";
-        std::cout << "Computer: " << computer.score <<"\n";
+        // print final results
+        cout << "FINAL SCORE:\n";
+        cout << "Human: " << human.score << "\n";
+        cout << "Computer: " << computer.score <<"\n";
 
-        if(human.score == computer.score) std::cout << "Tie Game!\n";
-        else std::cout << "\n" << ((human.score > computer.score)? "Human": "Computer") << " has won!\n";
+        if(human.score == computer.score) cout << "Tie Game!\n";
+        else cout << "\n" << ((human.score > computer.score)? "Human": "Computer") << " has won!\n";
 
-        std::cout << "Type yes to continue playing: ";
-        std::getline(cin, input);
-        if(input.find("yes") == std::string::npos) break;
-        std::cout << "\n";
+        // prompt to continue playing
+        cout << "Type yes to continue playing: ";
+        getline(cin, input);
+        if(input.find("yes") == string::npos) break;
+        cout << "\n";
     };
     
-    std::cout << string(32, '-') << "\n";
-    std::cout << "\nSummary\n";
-    std::cout << "Total Rounds: " << totalRounds << "\n\n";
+    // print summary
+    cout << string(32, '-') << "\n";
+    cout << "\nSummary\n";
+    cout << "Total Rounds: " << totalRounds << "\n\n";
     
+    // print summary of all games
     for(int i = 0; i < totalRounds; i++){
-        std::cout << "Round " << i+1 << "\n";
-        std::cout << "Computer Score: " << computerScores[i] << "\n";
-        std::cout << "Human Score: " << humanScores[i] << "\n";
-        std::cout << "Computer Wins: " << computerWins[i] << "\n";
-        std::cout << "Human Wins: " << humanWins[i] << "\n\n";
+        cout << "Round " << i+1 << "\n";
+        cout << "Computer Score: " << computerScores[i] << "\n";
+        cout << "Human Score: " << humanScores[i] << "\n";
+        cout << "Computer Wins: " << computerWins[i] << "\n";
+        cout << "Human Wins: " << humanWins[i] << "\n\n";
     }
     
-    std::cout << "All Rounds\n";
-    std::cout << "Computer Total Score: " << std::accumulate(computerScores.begin(), computerScores.end(), 0) << "\n";
-    std::cout << "Human Total Score: " << std::accumulate(humanScores.begin(), humanScores.end(), 0) << "\n";
-    std::cout << "Computer Total Wins: " << std::accumulate(computerWins.begin(), computerWins.end(), 0) << "\n";
-    std::cout << "Human Total Wins: " << std::accumulate(humanWins.begin(), humanWins.end(), 0) << "\n";
+    // print total scores and wins
+    cout << "All Rounds\n";
+    cout << "Computer Total Score: " << accumulate(computerScores.begin(), computerScores.end(), 0) << "\n";
+    cout << "Human Total Score: " << accumulate(humanScores.begin(), humanScores.end(), 0) << "\n";
+    cout << "Computer Total Wins: " << accumulate(computerWins.begin(), computerWins.end(), 0) << "\n";
+    cout << "Human Total Wins: " << accumulate(humanWins.begin(), humanWins.end(), 0) << "\n";
     
   return 0;
 }

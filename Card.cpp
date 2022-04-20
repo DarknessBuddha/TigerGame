@@ -1,5 +1,6 @@
 #include "Card.h"
 
+// constructor to set rank, color, and value
 Card::Card(int rank, Color color): rank(rank), color(color){
     switch(color){
         case purple:
@@ -11,20 +12,22 @@ Card::Card(int rank, Color color): rank(rank), color(color){
     }
 }
 
+// prints color:rank
 std::string Card::printCard() const{
-    std::string print;
+    std::string buffer;
     switch(color){
         case purple:
-            print += "purple";
+            buffer += "purple";
             break;
         case orange:
-            print += "orange";
+            buffer += "orange";
             break;
     }
 
-    return print += ":" + std::to_string(rank);
+    return buffer += ":" + std::to_string(rank);
 }
 
+// getters
 int Card::getRank() const { return rank; }
 int Card::getColor() const { return color; }
 int Card::getValue() const { return value; }
