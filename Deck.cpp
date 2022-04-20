@@ -5,7 +5,6 @@ Deck::Deck(){
         deck.push_back(Card(i, Card::purple));
         deck.push_back(Card(i, Card::orange));
     }
-    deck.push_back(Card(10, Card::Tiger));
 }
 
 

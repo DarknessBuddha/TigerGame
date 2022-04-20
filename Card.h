@@ -5,7 +5,7 @@
 
 class Card{
     public:
-        enum Color{purple, orange, Tiger};
+        enum Color{purple, orange};
         Card() = default;
         Card(int rank, Color color);
 

@@ -8,9 +8,6 @@ Card::Card(int rank, Color color): rank(rank), color(color){
         case orange:
             value = 2*rank;
             break;
-        case Tiger:
-            value = 20;
-            break;
     }
 }
 
@@ -22,9 +19,6 @@ std::string Card::printCard() const{
             break;
         case orange:
             print += "orange";
-            break;
-        case Tiger:
-            print += "Tiger";
             break;
     }
 

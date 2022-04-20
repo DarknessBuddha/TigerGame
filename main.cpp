@@ -74,14 +74,6 @@ int main() {
 
             std::cout << "Round " << i+1 << "\n-------\n";
             std::cout << "The computer plays: " << (computerCard = computer.hand.dealCard(0)).printCard() << "\n";
-            
-            if(computerCard.getColor() == Card::Tiger){
-                std::cout << "The computer wins the game!\n\n";
-                computer.score += computerCard.getValue();
-                *(computerScores.end()-1) += computerCard.getValue();
-                *(computerWins.end()-1) += 1;
-                break;
-            }
 
             std::cout << "Your hand: " << human.hand.printHand() << "\n";
             std::cout << "Which card do you want to play? ";
@@ -102,14 +94,6 @@ int main() {
             }
 
             std::cout << "You played: " << (humanCard = human.hand.dealCard(position)).printCard() << "\n";
-            
-            if(humanCard.getColor() == Card::Tiger){
-                std::cout << "You win the game!\n\n";
-                human.score += humanCard.getValue();
-                *(humanScores.end()-1) += humanCard.getValue();
-                *(humanWins.end()-1) += 1;
-                break;
-            }
             
             if(computerCard.getValue() > humanCard.getValue()){
                 std::cout << "The computer wins this round!\n";
